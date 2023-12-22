@@ -89,7 +89,7 @@ lexer = lex.lex()
 # Definición de la gramática
 def p_programa(p):
     'programa : bloque'
-    print("Correcto sintácticamente")
+    print("\n** Correcto sintácticamente **\n")
 
 def p_bloque(p):
     'bloque : LBRACE decls instrs RBRACE'
@@ -185,27 +185,18 @@ def p_empty(p):
 # Manejo de errores sintácticos
 def p_error(p):
     if p:
-        print(f"Error de sintaxis en '{p.value}' en la línea {p.lineno}")
+        print(f"\nError de sintaxis en '{p.value}'\n")
     else:
-        print("Error de sintaxis en EOF")
+        print("\nError de sintaxis al final del archivo\n")
 
 # Construcción del analizador sintáctico
 parser = yacc.yacc()
 
 # Prueba del analizador con un ejemplo
-codigo_ejemplo = '''
-{
-    {
-    int i; int j; float v; float x; float[100] a;
-    while( true ) {
-        do i = i+1; while( a[i] < v);
-        do j = j-1; while( a[j] > v);
-        if( i >= j ) break;
-        x = a[i]; a[i] = a[j]; a[j] = x;
-    }
-    }
-}
-'''
+
+input_file_path = 'input.txt'
+with open(input_file_path, 'r') as file:
+    codigo_ejemplo = file.read()
 
 lexer.input(codigo_ejemplo)
 for tok in lexer:
